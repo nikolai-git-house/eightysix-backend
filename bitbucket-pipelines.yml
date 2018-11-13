@@ -1,0 +1,55 @@
+image: eightysix/beanstalk_pipeline
+
+pipelines:
+  default:
+    - step:
+        name: Install and Test
+        deployment: test
+        script:
+          - npm install
+          - npm run jest
+
+  branches:
+    development:
+      - step:
+          name: Staging Test and Deploy
+          deployment: staging
+          script:
+            - npm install
+            - npm run jest
+            - sed -i "s|<Access Key ID>|$AWS_ACCESS_KEY_ID|g" ~/.aws/config
+            - sed -i "s|<Secret Access Key>|$AWS_SECRET_ACCESS_KEY|g" ~/.aws/config
+            - sed -i "s|<Frontend URL>|$DEV_APP_URL|g" .ebextensions/06-variables.config
+            - sed -i "s/<DB Name>/$DEV_RDS_DB_NAME/g" .ebextensions/06-variables.config
+            - sed -i "s/<DB Username>/$DEV_RDS_USERNAME/g" .ebextensions/06-variables.config
+            - sed -i "s/<DB Password>/$DEV_RDS_PASSWORD/g" .ebextensions/06-variables.config
+            - sed -i "s/<DB Host>/$DEV_RDS_HOSTNAME/g" .ebextensions/06-variables.config
+            - sed -i "s/<Mail Username>/$DEV_MAIL_USER/g" .ebextensions/06-variables.config
+            - sed -i "s/<Mail Password>/$DEV_MAIL_PASSWORD/g" .ebextensions/06-variables.config
+            - sed -i "s/<Contact Email>/$DEV_MAIL_USER/g" .ebextensions/06-variables.config
+            - sed -i "s/<Identity Pool ID>/$IDENTITY_POOL_ID/g" .ebextensions/06-variables.config
+            - sed -i "s/<User Pool ID>/$USER_POOL_ID/g" .ebextensions/06-variables.config
+            - sed -i "s/<User Pool Webclient ID>/$USER_POOL_WEB_CLIENT_ID/g" .ebextensions/06-variables.config
+            - eb deploy eightysix-api-dev --nohang
+
+    master:
+      - step:
+          name: Production Test and Deploy
+          deployment: production
+          script:
+            - npm install
+            - npm run jest
+            - sed -i "s|<Access Key ID>|$AWS_ACCESS_KEY_ID|g" ~/.aws/config
+            - sed -i "s|<Secret Access Key>|$AWS_SECRET_ACCESS_KEY|g" ~/.aws/config
+            - sed -i "s|<Frontend URL>|$PROD_APP_URL|g" .ebextensions/06-variables.config
+            - sed -i "s/<DB Name>/$PROD_RDS_DB_NAME/g" .ebextensions/06-variables.config
+            - sed -i "s/<DB Username>/$PROD_RDS_USERNAME/g" .ebextensions/06-variables.config
+            - sed -i "s/<DB Password>/$PROD_RDS_PASSWORD/g" .ebextensions/06-variables.config
+            - sed -i "s/<DB Host>/$PROD_RDS_HOSTNAME/g" .ebextensions/06-variables.config
+            - sed -i "s/<Mail Username>/$PROD_MAIL_USER/g" .ebextensions/06-variables.config
+            - sed -i "s/<Mail Password>/$PROD_MAIL_PASSWORD/g" .ebextensions/06-variables.config
+            - sed -i "s/<Contact Email>/$PROD_MAIL_USER/g" .ebextensions/06-variables.config
+            - sed -i "s/<Identity Pool ID>/$IDENTITY_POOL_ID/g" .ebextensions/06-variables.config
+            - sed -i "s/<User Pool ID>/$USER_POOL_ID/g" .ebextensions/06-variables.config
+            - sed -i "s/<User Pool Webclient ID>/$USER_POOL_WEB_CLIENT_ID/g" .ebextensions/06-variables.config
+            - eb deploy eightysix-api-prod --nohang

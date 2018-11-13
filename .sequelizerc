@@ -1,0 +1,16 @@
+const path = require('path');
+const config = require('./config');
+
+module.exports = {
+  [config.env]: {
+    ...config.db,
+    dialect: 'postgres',
+    seederStorage: 'sequelize',
+    migrationStorage: 'sequelize',
+    operatorsAliases: false
+  },
+  config: __filename,
+  'migrations-path': path.resolve(__dirname, 'db/migrations'),
+  'seeders-path': path.resolve(__dirname, 'db/seeders'),
+  'models-path': path.resolve(__dirname, 'server/src/models')
+};

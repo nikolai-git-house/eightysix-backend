@@ -1,0 +1,1 @@
+define({  "name": "EightySix-API",  "version": "1.0.0",  "description": "EightySix Analytics backend API source code",  "sampleUrl": false,  "defaultVersion": "0.0.0",  "apidoc": "0.3.0",  "generator": {    "name": "apidoc",    "time": "2018-08-19T05:44:46.246Z",    "url": "http://apidocjs.com",    "version": "0.17.6"  }});

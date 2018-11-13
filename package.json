@@ -1,0 +1,137 @@
+{
+  "name": "EightySix-API",
+  "author": "David Bowe <david.bowe@eightysix.ie>",
+  "description": "EightySix Analytics backend API source code",
+  "version": "1.0.0",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "start:prod": "node app.js",
+    "start:dev": "nodemon app.js --watch ./app --watch ./config",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint --fix .",
+    "apidoc:generate": "apidoc -i ./app/ -o ./apidoc/ --silent",
+    "apidoc:serve": "http-server ./apidoc/",
+    "migration:create": "sequelize migration:create --name ${1}",
+    "migrate": "sequelize db:migrate",
+    "migrate:undo": "sequelize db:migrate:undo",
+    "migrate:undo:all": "sequelize db:migrate:undo:all",
+    "seed": "sequelize db:seed:all",
+    "seed:undo": "sequelize db:seed:undo:all",
+    "jest": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/eightysixdevelopment/updated-api"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "accesscontrol": "^2.2.0",
+    "amazon-cognito-identity-js": "^2.0.6",
+    "aws-sdk": "^2.248.1",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cognito-express": "^2.0.10",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "helmet": "^3.9.0",
+    "knex": "^0.14.2",
+    "lodash": "^4.17.4",
+    "mjml": "^3.3.5",
+    "mkdirp": "^0.5.1",
+    "moment": "^2.19.4",
+    "morgan": "^1.9.0",
+    "node-fetch": "^2.1.2",
+    "nodemailer": "^4.4.1",
+    "pg": "^6.4.1",
+    "sequelize": "^4.28.2",
+    "umzug": "^2.1.0",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "apidoc": "^0.17.6",
+    "eslint": "^4.13.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "http-server": "^0.10.0",
+    "jest": "^23.4.0",
+    "nodemon": "^1.13.0",
+    "sequelize-cli": "2.7.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "extends": "airbnb-base",
+    "rules": {
+      "eqeqeq": [
+        2,
+        "smart"
+      ],
+      "no-control-regex": "off",
+      "prefer-const": "off",
+      "global-require": "off",
+      "max-len": "off",
+      "import/no-dynamic-require": "off",
+      "object-curly-spacing": [
+        "error",
+        "never"
+      ],
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
+      "no-param-reassign": "off",
+      "no-restricted-syntax": [
+        "error",
+        "WithStatement"
+      ],
+      "no-unused-vars": [
+        "warn",
+        {
+          "argsIgnorePattern": "next"
+        }
+      ],
+      "arrow-parens": [
+        "error",
+        "as-needed"
+      ],
+      "object-curly-newline": [
+        "error",
+        {
+          "consistent": true
+        }
+      ],
+      "prefer-destructuring": [
+        "error",
+        {
+          "VariableDeclarator": {
+            "array": true,
+            "object": true
+          }
+        }
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "apidoc"
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/app/__mocks__/assetsTransformer.js"
+    },
+    "verbose": true
+  }
+}
